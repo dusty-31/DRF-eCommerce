@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from drfecommerce.apps.products.models import Brand, Category, Product
@@ -32,14 +33,22 @@ class BrandViewSet(viewsets.ViewSet):
         return Response(data=serializer.data)
 
 
-class ProductViewSet(viewsets.ViewSet):
-    """
-    A simple ViewSet for viewing all products.
-    """
-
+class ProductViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
-    @extend_schema(responses=ProductSerializer)
+    @extend_schema(responses=serializer_class)
     def list(self, request):
-        serializer = ProductSerializer(self.queryset, many=True)
+        """
+        An endpoint to get all products.
+        """
+        serializer = self.serializer_class(self.queryset, many=True)
+        return Response(data=serializer.data)
+
+    @action(methods=['get'], detail=False, url_path=r'category/(?P<category>[\w+\s]+)/all', url_name='all')
+    def get_list_product_by_category(self, request, category: str = None):
+        """
+        An endpoint to get all products by category.
+        """
+        serializer = ProductSerializer(self.queryset.filter(category__name=category), many=True)
         return Response(data=serializer.data)

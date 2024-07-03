@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from drfecommerce.apps.products.models import Brand, Category, Product
+from drfecommerce.apps.products.models import Brand, Category, Product, ProductLine
 
 
 @admin.register(Category)
@@ -15,4 +15,9 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ProductLine)
+class ProductLineAdmin(admin.ModelAdmin):
     pass

@@ -31,3 +31,13 @@ class TestProductModel:
     def test_str_method(self, product_factory):
         product_object = product_factory()
         assert str(product_object) == product_object.name
+
+
+class TestProductLineModel:
+    """
+    Test the product line model.
+    """
+
+    def test_str_method(self, product_line_factory):
+        product_line_object = product_line_factory()
+        assert str(product_line_object) == f'Name: {product_line_object.product.name} | SKU: {product_line_object.sku}'

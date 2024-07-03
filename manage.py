@@ -3,12 +3,12 @@
 import os
 import sys
 
-from drfecommerce.settings import base
+from drfecommerce.settings import settings
 
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drfecommerce.settings.base')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drfecommerce.settings.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
