@@ -1,0 +1,28 @@
+[
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Product 1",
+      "slug": "product-1",
+      "description": "Description for product 1.",
+      "is_digital": false,
+      "brand": 1,
+      "category": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Product 2",
+      "slug": "product-2",
+      "description": "Description for Product 2.",
+      "is_digital": false,
+      "brand": 1,
+      "category": 2,
+      "is_active": true
+    }
+  }
+]

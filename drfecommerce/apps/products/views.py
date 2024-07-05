@@ -33,9 +33,18 @@ class BrandViewSet(viewsets.ViewSet):
         return Response(data=serializer.data)
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(viewsets.ViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    lookup_field = 'slug'
+
+    @extend_schema(responses=serializer_class)
+    def retrieve(self, request, slug: str = None):
+        """
+        An endpoint to get a single product.
+        """
+        serializer = self.serializer_class(self.queryset.get(slug=slug))
+        return Response(data=serializer.data)
 
     @extend_schema(responses=serializer_class)
     def list(self, request):
