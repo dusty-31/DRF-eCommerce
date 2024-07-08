@@ -3,6 +3,11 @@ from django.contrib import admin
 from drfecommerce.apps.products.models import Brand, Category, Product, ProductLine
 
 
+class ProductLineInLine(admin.TabularInline):
+    model = ProductLine
+    extra = 0
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass
@@ -15,7 +20,17 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    fields = [
+        'name',
+        'description',
+        'is_digital',
+        'brand',
+        'category',
+        'is_active',
+    ]
+    inlines = [
+        ProductLineInLine,
+    ]
 
 
 @admin.register(ProductLine)

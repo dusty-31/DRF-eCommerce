@@ -35,6 +35,10 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.slug = self.name.replace(' ', '-').lower()
+        super(Product, self).save()
+
 
 class ProductLine(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
