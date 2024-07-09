@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -15,7 +16,7 @@ class CategoryViewSet(viewsets.ViewSet):
     queryset = Category.objects.all()
 
     @extend_schema(responses=CategorySerializer)
-    def list(self, request):
+    def list(self, request: HttpRequest) -> Response:
         serializer = CategorySerializer(self.queryset, many=True)
         return Response(data=serializer.data)
 
@@ -28,7 +29,7 @@ class BrandViewSet(viewsets.ViewSet):
     queryset = Brand.objects.all()
 
     @extend_schema(responses=BrandSerializer)
-    def list(self, request):
+    def list(self, request: HttpRequest) -> Response:
         serializer = CategorySerializer(self.queryset, many=True)
         return Response(data=serializer.data)
 
@@ -39,7 +40,7 @@ class ProductViewSet(viewsets.ViewSet):
     lookup_field = 'slug'
 
     @extend_schema(responses=serializer_class)
-    def retrieve(self, request, slug: str = None):
+    def retrieve(self, request: HttpRequest, slug: str = None) -> Response:
         """
         An endpoint to get a single product.
         """
@@ -47,7 +48,7 @@ class ProductViewSet(viewsets.ViewSet):
         return Response(data=serializer.data)
 
     @extend_schema(responses=serializer_class)
-    def list(self, request):
+    def list(self, request: HttpRequest) -> Response:
         """
         An endpoint to get all products.
         """
@@ -55,7 +56,7 @@ class ProductViewSet(viewsets.ViewSet):
         return Response(data=serializer.data)
 
     @action(methods=['get'], detail=False, url_path=r'category/(?P<category>[\w+\s]+)/all', url_name='all')
-    def get_list_product_by_category(self, request, category: str = None):
+    def get_list_product_by_category(self, request: HttpRequest, category: str = None) -> Response:
         """
         An endpoint to get all products by category.
         """

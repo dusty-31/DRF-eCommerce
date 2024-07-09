@@ -6,27 +6,42 @@ from drfecommerce.apps.products.models import Brand, Category, Product, ProductL
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = [
+            'name',
+        ]
 
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
-        fields = '__all__'
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    brand = BrandSerializer()
-    category = CategorySerializer()
-
-    class Meta:
-        model = Product
-        fields = ['name', 'description', 'is_digital', 'brand', 'category', 'is_active']
+        exclude = [
+            'id',
+        ]
 
 
 class ProductLineSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
     class Meta:
         model = ProductLine
-        fields = '__all__'
+        exclude = [
+            'id',
+            'product',
+            'is_active',
+        ]
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    brand_name = serializers.CharField(source='brand.name')
+    category_name = serializers.CharField(source='category.name')
+    product_lines = ProductLineSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = [
+            'name',
+            'description',
+            'is_digital',
+            'brand_name',
+            'category_name',
+            'is_active',
+            'product_lines',
+        ]
