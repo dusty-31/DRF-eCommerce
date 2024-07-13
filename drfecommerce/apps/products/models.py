@@ -2,9 +2,18 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
+
 class Category(MPTTModel):
     name = models.CharField(max_length=120, unique=True)
+    is_active = models.BooleanField(default=False)
     parent = TreeForeignKey(to='self', on_delete=models.PROTECT, null=True, blank=True, related_name='children')
+
+    objects = models.Manager()
+    active_objects = ActiveManager()
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -18,6 +27,10 @@ class Category(MPTTModel):
 
 class Brand(models.Model):
     name = models.CharField(max_length=120, unique=True)
+    is_active = models.BooleanField(default=False)
+
+    objects = models.Manager()
+    active_objects = ActiveManager()
 
     def __str__(self) -> str:
         return self.name
@@ -31,6 +44,9 @@ class Product(models.Model):
     brand = models.ForeignKey(to=Brand, on_delete=models.PROTECT)
     category = TreeForeignKey(to=Category, null=True, blank=True, on_delete=models.SET_NULL)
     is_active = models.BooleanField(default=True)
+
+    objects = models.Manager()
+    active_objects = ActiveManager()
 
     def __str__(self) -> str:
         return self.name
