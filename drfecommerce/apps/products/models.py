@@ -1,6 +1,8 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+from drfecommerce.apps.products.fields import OrderField
+
 
 class ActiveManager(models.Manager):
     def get_queryset(self):
@@ -61,7 +63,18 @@ class ProductLine(models.Model):
     sku = models.CharField(max_length=100)
     stock_quantity = models.PositiveIntegerField()
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE, related_name='product_lines')
+    order = OrderField(unique_for_fields='product', blank=True)
     is_active = models.BooleanField(default=True)
+
+    objects = models.Manager()
+    active_objects = ActiveManager()
 
     def __str__(self) -> str:
         return f'Name: {self.product.name} | SKU: {self.sku}'
+
+    def clean_fields(self, exclude=None):
+        super().clean_fields(exclude=exclude)
+        queryset = ProductLine.objects.filter(product=self.product)
+        for obj in queryset:
+            if self.id != obj.id and self.order == obj.order:
+                raise ValueError('Order must be unique for each product.')
