@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -11,6 +12,7 @@ class ActiveManager(models.Manager):
 
 class Category(MPTTModel):
     name = models.CharField(max_length=120, unique=True)
+    slug = models.SlugField(max_length=150, unique=True)
     is_active = models.BooleanField(default=False)
     parent = TreeForeignKey(to='self', on_delete=models.PROTECT, null=True, blank=True, related_name='children')
 
@@ -25,6 +27,10 @@ class Category(MPTTModel):
 
     def __str__(self) -> str:
         return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None) -> None:
+        self.slug = self.name.replace(' ', '-').lower()
+        super().save()
 
 
 class Brand(models.Model):
@@ -63,7 +69,7 @@ class ProductLine(models.Model):
     sku = models.CharField(max_length=100)
     stock_quantity = models.PositiveIntegerField()
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE, related_name='product_lines')
-    order = OrderField(unique_for_fields='product', blank=True)
+    order = OrderField(unique_for_field='product', blank=True)
     is_active = models.BooleanField(default=True)
 
     objects = models.Manager()
@@ -72,9 +78,12 @@ class ProductLine(models.Model):
     def __str__(self) -> str:
         return f'Name: {self.product.name} | SKU: {self.sku}'
 
-    def clean_fields(self, exclude=None):
-        super().clean_fields(exclude=exclude)
+    def clean(self):
         queryset = ProductLine.objects.filter(product=self.product)
         for obj in queryset:
             if self.id != obj.id and self.order == obj.order:
-                raise ValueError('Order must be unique for each product.')
+                raise ValidationError('Order must be unique for each product.')
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(ProductLine, self).save(*args, **kwargs)

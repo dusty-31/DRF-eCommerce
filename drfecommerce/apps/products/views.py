@@ -1,4 +1,5 @@
 from django.http import HttpRequest
+from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -22,6 +23,8 @@ class CategoryViewSet(viewsets.ViewSet):
 
 
 class BrandViewSet(viewsets.ViewSet):
+    model = Brand
+    serializer_class = BrandSerializer
     """
     A simple ViewSet for viewing all brands.
     """
@@ -44,7 +47,8 @@ class ProductViewSet(viewsets.ViewSet):
         """
         An endpoint to get a single product.
         """
-        serializer = self.serializer_class(self.queryset.select_related('brand', 'category').get(slug=slug))
+        product = get_object_or_404(self.queryset.select_related('brand', 'category'), slug=slug)
+        serializer = self.serializer_class(product)
         return Response(data=serializer.data)
 
     @extend_schema(responses=serializer_class)
@@ -55,13 +59,13 @@ class ProductViewSet(viewsets.ViewSet):
         serializer = self.serializer_class(self.queryset.select_related('brand', 'category'), many=True)
         return Response(data=serializer.data)
 
-    @action(methods=['get'], detail=False, url_path=r'category/(?P<category>[\w+\s]+)/all', url_name='all')
-    def get_list_product_by_category(self, request: HttpRequest, category: str = None) -> Response:
+    @action(methods=['get'], detail=False, url_path=r'category/(?P<slug>[\w-]+)/all', url_name='all')
+    def get_list_product_by_category_slug(self, request: HttpRequest, slug: str = None) -> Response:
         """
-        An endpoint to get all products by category.
+        An endpoint to get all products by category slug.
         """
         serializer = ProductSerializer(
-            self.queryset.filter(category__name=category).select_related('brand', 'category'),
+            self.queryset.filter(category__slug=slug).select_related('brand', 'category'),
             many=True,
         )
         return Response(data=serializer.data)

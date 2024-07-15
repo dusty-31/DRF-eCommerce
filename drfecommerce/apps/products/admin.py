@@ -10,7 +10,9 @@ class ProductLineInLine(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    exclude = [
+        'slug',
+    ]
 
 
 @admin.register(Brand)

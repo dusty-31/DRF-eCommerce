@@ -36,4 +36,4 @@ class ProductLineFactory(factory.django.DjangoModelFactory):
     sku = factory.Faker('word')
     stock_quantity = factory.Faker('random_number', digits=2)
     product = factory.SubFactory(ProductFactory)
-    is_active = factory.Faker('boolean')
+    is_active = True

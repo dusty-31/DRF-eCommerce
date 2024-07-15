@@ -38,6 +38,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'name',
+            'slug',
             'description',
             'is_digital',
             'brand_name',
