@@ -1,6 +1,6 @@
 import factory
 
-from drfecommerce.apps.products.models import Brand, Category, Product
+from drfecommerce.apps.products.models import Brand, Category, Product, ProductImage, ProductLine
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
@@ -26,3 +26,23 @@ class ProductFactory(factory.django.DjangoModelFactory):
     is_digital = factory.Faker('boolean')
     category = factory.SubFactory(CategoryFactory)
     brand = factory.SubFactory(BrandFactory)
+
+
+class ProductLineFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ProductLine
+
+    price = factory.Faker('random_number', digits=2)
+    sku = factory.Faker('word')
+    stock_quantity = factory.Faker('random_number', digits=2)
+    product = factory.SubFactory(ProductFactory)
+    is_active = True
+
+
+class ProductImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ProductImage
+
+    alternative_text = factory.Faker('word')
+    url = factory.Faker('url')
+    product_line = factory.SubFactory(ProductLineFactory)
