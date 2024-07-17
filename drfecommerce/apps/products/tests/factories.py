@@ -1,6 +1,6 @@
 import factory
 
-from drfecommerce.apps.products.models import Brand, Category, Product, ProductLine
+from drfecommerce.apps.products.models import Brand, Category, Product, ProductImage, ProductLine
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
@@ -37,3 +37,12 @@ class ProductLineFactory(factory.django.DjangoModelFactory):
     stock_quantity = factory.Faker('random_number', digits=2)
     product = factory.SubFactory(ProductFactory)
     is_active = True
+
+
+class ProductImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ProductImage
+
+    alternative_text = factory.Faker('word')
+    url = factory.Faker('url')
+    product_line = factory.SubFactory(ProductLineFactory)

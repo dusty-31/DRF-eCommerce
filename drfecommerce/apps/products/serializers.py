@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from drfecommerce.apps.products.models import Brand, Category, Product, ProductLine
+from drfecommerce.apps.products.models import Brand, Category, Product, ProductImage, ProductLine
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -19,13 +19,26 @@ class BrandSerializer(serializers.ModelSerializer):
         ]
 
 
-class ProductLineSerializer(serializers.ModelSerializer):
+class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductLine
+        model = ProductImage
         exclude = [
             'id',
-            'product',
-            'is_active',
+            'product_line',
+        ]
+
+
+class ProductLineSerializer(serializers.ModelSerializer):
+    product_images = ProductImageSerializer(many=True)
+
+    class Meta:
+        model = ProductLine
+        fields = [
+            'price',
+            'sku',
+            'stock_quantity',
+            'order',
+            'product_images',
         ]
 
 

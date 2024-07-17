@@ -56,3 +56,22 @@ class TestProductLineModel:
         product_line_factory(order=1, product=product)
         with pytest.raises(ValidationError):
             product_line_factory(order=1, product=product).clean()
+
+
+class TestProductImageModel:
+    """
+    Test the product image model.
+    """
+
+    def test_str_method(self, product_image_factory):
+        product_image_object = product_image_factory()
+        str_method_example = f'Product Line: {product_image_object.product_line.sku} | Name: {product_image_object.url}'
+        assert str(product_image_object) == str_method_example
+
+    def test_order_field(self, product_image_factory, product_line_factory):
+        product_line = product_line_factory()
+        product_image_1 = product_image_factory(product_line=product_line)
+        product_image_2 = product_image_factory(product_line=product_line)
+        assert product_image_1.order == 1
+        assert product_image_2.order == 2
+        assert product_image_1.order != product_image_2.order

@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
@@ -47,7 +48,12 @@ class ProductViewSet(viewsets.ViewSet):
         """
         An endpoint to get a single product.
         """
-        product = get_object_or_404(self.queryset.select_related('brand', 'category'), slug=slug)
+        product = get_object_or_404(
+            self.queryset.select_related('brand', 'category').prefetch_related(
+                Prefetch('product_lines__product_images')
+            ),
+            slug=slug,
+        )
         serializer = self.serializer_class(product)
         return Response(data=serializer.data)
 
