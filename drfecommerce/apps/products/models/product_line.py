@@ -3,7 +3,7 @@ from django.db import models
 
 from drfecommerce.apps.products.fields import OrderField
 from drfecommerce.apps.products.managers import ActiveManager
-from drfecommerce.apps.products.models.product import Product
+from drfecommerce.apps.products.models import Product
 
 
 class ProductLine(models.Model):
@@ -13,6 +13,11 @@ class ProductLine(models.Model):
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE, related_name='product_lines')
     order = OrderField(unique_for_field='product', blank=True)
     is_active = models.BooleanField(default=True)
+    attribute_values = models.ManyToManyField(
+        to='AttributeValue',
+        through='ProductLineAttributeValue',
+        related_name='product_lines',
+    )
 
     objects = models.Manager()
     active_objects = ActiveManager()
