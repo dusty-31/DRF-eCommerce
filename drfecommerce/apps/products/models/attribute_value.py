@@ -6,7 +6,7 @@ class AttributeValue(models.Model):
     attribute = models.ForeignKey('Attribute', on_delete=models.CASCADE, related_name='attribute_values')
 
     def __str__(self):
-        return self.value
+        return f'{self.attribute.name} - {self.value}'
 
     class Meta:
         verbose_name = 'Attribute Value'
