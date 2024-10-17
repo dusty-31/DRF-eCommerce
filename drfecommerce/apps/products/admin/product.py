@@ -13,6 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
         'brand',
         'category',
         'is_active',
+        'product_type',
     ]
     inlines = [
         ProductLineInline,

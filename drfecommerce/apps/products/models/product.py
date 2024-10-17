@@ -4,6 +4,7 @@ from mptt.models import TreeForeignKey
 from drfecommerce.apps.products.managers import ActiveManager
 from drfecommerce.apps.products.models.brand import Brand
 from drfecommerce.apps.products.models.category import Category
+from drfecommerce.apps.products.models.product_type import ProductType
 
 
 class Product(models.Model):
@@ -14,6 +15,11 @@ class Product(models.Model):
     brand = models.ForeignKey(to=Brand, on_delete=models.PROTECT)
     category = TreeForeignKey(to=Category, null=True, blank=True, on_delete=models.SET_NULL)
     is_active = models.BooleanField(default=True)
+    product_type = models.ForeignKey(
+        to=ProductType,
+        on_delete=models.PROTECT,
+        related_name='product_lines',
+    )
 
     objects = models.Manager()
     active_objects = ActiveManager()
