@@ -21,9 +21,9 @@ class ProductViewSet(viewsets.ViewSet):
         An endpoint to get a single product.
         """
         product = get_object_or_404(
-            self.queryset.select_related('brand', 'category').prefetch_related(
-                Prefetch('product_lines__product_images')
-            ),
+            self.queryset.select_related('brand', 'category')
+            .prefetch_related(Prefetch('product_lines__product_images'))
+            .prefetch_related(Prefetch('product_lines__attribute_values_attribute')),
             slug=slug,
         )
         serializer = self.serializer_class(product)
