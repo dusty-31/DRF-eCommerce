@@ -6,3 +6,5 @@ from .product import Product
 from .product_image import ProductImage
 from .product_line import ProductLine
 from .product_line_attribute_value import ProductLineAttributeValue
+from .product_type import ProductType
+from .product_type_attribute import ProductTypeAttribute
