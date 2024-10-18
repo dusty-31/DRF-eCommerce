@@ -25,7 +25,6 @@ from drfecommerce.apps.products import views
 
 router = DefaultRouter()
 router.register(prefix=r'category', viewset=views.CategoryViewSet)
-router.register(prefix=r'brand', viewset=views.BrandViewSet)
 router.register(prefix=r'product', viewset=views.ProductViewSet)
 
 urlpatterns = [

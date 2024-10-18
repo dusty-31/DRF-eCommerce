@@ -5,7 +5,6 @@ from rest_framework.test import APIClient
 from drfecommerce.apps.products.tests.factories import (
     AttributeFactory,
     AttributeValueFactory,
-    BrandFactory,
     CategoryFactory,
     ProductFactory,
     ProductImageFactory,
@@ -16,7 +15,6 @@ from drfecommerce.apps.products.tests.factories import (
 # Register factories
 
 register(CategoryFactory)
-register(BrandFactory)
 register(ProductFactory)
 register(ProductLineFactory)
 register(ProductImageFactory)

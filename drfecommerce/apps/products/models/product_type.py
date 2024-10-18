@@ -6,6 +6,7 @@ from drfecommerce.apps.products.models.product_type_attribute import ProductType
 
 class ProductType(models.Model):
     name = models.CharField(max_length=100)
+    parent = models.ForeignKey("self", on_delete=models.PROTECT, null=True, blank=True)
     attribute = models.ManyToManyField(
         to=Attribute,
         through=ProductTypeAttribute,

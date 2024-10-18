@@ -10,7 +10,6 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'description',
         'is_digital',
-        'brand',
         'category',
         'is_active',
         'product_type',

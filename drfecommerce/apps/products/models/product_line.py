@@ -3,7 +3,8 @@ from django.db import models
 
 from drfecommerce.apps.products.fields import OrderField
 from drfecommerce.apps.products.managers import ActiveManager
-from drfecommerce.apps.products.models import Product
+from drfecommerce.apps.products.models.product import Product
+from drfecommerce.apps.products.models.product_type import ProductType
 
 
 class ProductLine(models.Model):
@@ -17,6 +18,16 @@ class ProductLine(models.Model):
         to='AttributeValue',
         through='ProductLineAttributeValue',
         related_name='product_lines',
+    )
+    weight = models.FloatField()
+    product_type = models.ForeignKey(
+        to=ProductType,
+        on_delete=models.PROTECT,
+        related_name="product_line_type",
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        editable=False,
     )
 
     objects = models.Manager()

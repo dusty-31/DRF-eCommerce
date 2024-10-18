@@ -14,16 +14,6 @@ class TestCategoryModel:
         assert str(category_object) == category_object.name
 
 
-class TestBrandModel:
-    """
-    Test the brand model.
-    """
-
-    def test_str_method(self, brand_factory):
-        brand_object = brand_factory()
-        assert str(brand_object) == brand_object.name
-
-
 class TestProductModel:
     """
     Test the product model.
