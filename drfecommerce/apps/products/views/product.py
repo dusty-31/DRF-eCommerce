@@ -21,7 +21,7 @@ class ProductViewSet(viewsets.ViewSet):
         An endpoint to get a single product.
         """
         product = get_object_or_404(
-            self.queryset.select_related('brand', 'category')
+            self.queryset.select_related('category')
             .prefetch_related(Prefetch('product_lines__product_images'))
             .prefetch_related(Prefetch('product_lines__attribute_values_attribute')),
             slug=slug,
@@ -43,7 +43,7 @@ class ProductViewSet(viewsets.ViewSet):
         An endpoint to get all products by category slug.
         """
         serializer = ProductSerializer(
-            self.queryset.filter(category__slug=slug).select_related('brand', 'category'),
+            self.queryset.filter(category__slug=slug).select_related('category'),
             many=True,
         )
         return Response(data=serializer.data)

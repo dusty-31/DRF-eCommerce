@@ -17,20 +17,6 @@ class TestCategoryEndpoints:
         assert len(response.json()) == 5
 
 
-class TestBrandEndpoints:
-    """
-    Test the brand endpoints.
-    """
-
-    endpoint = '/api/brand/'
-
-    def test_brand_get(self, api_client, brand_factory):
-        brand_factory.create_batch(5)
-        response = api_client.get(self.endpoint)
-        assert response.status_code == 200
-        assert len(response.json()) == 5
-
-
 class TestProductEndpoints:
     """
     Test the product endpoints.

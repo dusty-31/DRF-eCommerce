@@ -3,20 +3,24 @@ from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
 from drfecommerce.apps.products.tests.factories import (
-    BrandFactory,
+    AttributeFactory,
+    AttributeValueFactory,
     CategoryFactory,
     ProductFactory,
     ProductImageFactory,
     ProductLineFactory,
+    ProductTypeFactory,
 )
 
 # Register factories
 
 register(CategoryFactory)
-register(BrandFactory)
 register(ProductFactory)
 register(ProductLineFactory)
 register(ProductImageFactory)
+register(ProductTypeFactory)
+register(AttributeValueFactory)
+register(AttributeFactory)
 
 
 # Define fixtures

@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from drfecommerce.apps.products.admin.inlines.attribute_value_product import AttributeValueProductInline
 from drfecommerce.apps.products.admin.inlines.product_line import ProductLineInline
 from drfecommerce.apps.products.models import Product
 
@@ -10,11 +11,11 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'description',
         'is_digital',
-        'brand',
         'category',
         'is_active',
         'product_type',
     ]
     inlines = [
         ProductLineInline,
+        AttributeValueProductInline,
     ]

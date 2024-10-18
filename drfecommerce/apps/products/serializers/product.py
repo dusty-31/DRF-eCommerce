@@ -7,7 +7,6 @@ from drfecommerce.apps.products.serializers.product_line import ProductLineSeria
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    brand_name = serializers.CharField(source='brand.name')
     category_name = serializers.CharField(source='category.name')
     product_lines = ProductLineSerializer(many=True)
     attribute = serializers.SerializerMethodField()
@@ -19,7 +18,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'slug',
             'description',
             'is_digital',
-            'brand_name',
             'category_name',
             'is_active',
             'product_lines',

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drfecommerce.apps.products',
+    'mptt',
 ]
 
 MIDDLEWARE = [

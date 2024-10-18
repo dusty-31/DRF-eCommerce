@@ -14,16 +14,6 @@ class TestCategoryModel:
         assert str(category_object) == category_object.name
 
 
-class TestBrandModel:
-    """
-    Test the brand model.
-    """
-
-    def test_str_method(self, brand_factory):
-        brand_object = brand_factory()
-        assert str(brand_object) == brand_object.name
-
-
 class TestProductModel:
     """
     Test the product model.
@@ -56,6 +46,37 @@ class TestProductLineModel:
         product_line_factory(order=1, product=product)
         with pytest.raises(ValidationError):
             product_line_factory(order=1, product=product).clean()
+
+
+class TestProductTypeModel:
+    """
+    Test the product type model.
+    """
+
+    def test_str_method(self, product_type_factory):
+        product_type_object = product_type_factory()
+        assert str(product_type_object) == product_type_object.name
+
+
+class TestAttributeModel:
+    """
+    Test the attribute model.
+    """
+
+    def test_str_method(self, attribute_factory):
+        attribute_object = attribute_factory()
+        assert str(attribute_object) == attribute_object.name
+
+
+class TestAttributeValueModel:
+    """
+    Test the attribute value model.
+    """
+
+    def test_str_method(self, attribute_value_factory):
+        attribute_value_object = attribute_value_factory()
+        result = f'{attribute_value_object.attribute.name} - {attribute_value_object.value}'
+        assert str(attribute_value_object) == result
 
 
 class TestProductImageModel:
