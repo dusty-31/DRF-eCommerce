@@ -58,6 +58,37 @@ class TestProductLineModel:
             product_line_factory(order=1, product=product).clean()
 
 
+class TestProductTypeModel:
+    """
+    Test the product type model.
+    """
+
+    def test_str_method(self, product_type_factory):
+        product_type_object = product_type_factory()
+        assert str(product_type_object) == product_type_object.name
+
+
+class TestAttributeModel:
+    """
+    Test the attribute model.
+    """
+
+    def test_str_method(self, attribute_factory):
+        attribute_object = attribute_factory()
+        assert str(attribute_object) == attribute_object.name
+
+
+class TestAttributeValueModel:
+    """
+    Test the attribute value model.
+    """
+
+    def test_str_method(self, attribute_value_factory):
+        attribute_value_object = attribute_value_factory()
+        result = f'{attribute_value_object.attribute.name} - {attribute_value_object.value}'
+        assert str(attribute_value_object) == result
+
+
 class TestProductImageModel:
     """
     Test the product image model.
