@@ -7,14 +7,11 @@ from drfecommerce.apps.products.models import Category
 from drfecommerce.apps.products.serializers import CategorySerializer
 
 
-class CategoryViewSet(viewsets.ViewSet):
-    """
-    A simple ViewSet for viewing all categories.
-    """
-
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
     @extend_schema(responses=CategorySerializer)
     def list(self, request: HttpRequest) -> Response:
         serializer = CategorySerializer(self.queryset, many=True)
-        return Response(data=serializer.data)
+        return Response(serializer.data)
